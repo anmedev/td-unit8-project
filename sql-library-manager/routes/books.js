@@ -64,12 +64,12 @@ router.post('/:id', asyncHandler(async (req, res) => {
     book = await Book.findByPk(req.params.id);
     if (book) {
       await book.update(req.body);
-      res.redirect("/books/"); 
+      res.redirect("/books"); 
     } else {
       res.sendStatus(404);
     }
   } catch (error) {
-    if(error.name === "SequelizeValidationError") {
+    if (error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
       book.id = req.params.id;
       res.render("update-book", {book, errors: error.errors, title: "Update Book"})
