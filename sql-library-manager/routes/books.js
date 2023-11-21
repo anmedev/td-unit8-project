@@ -34,8 +34,7 @@ router.post("/new", asyncHandler(async (req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
-    res.redirect("/books");
-    // res.redirect("/books" + book.id);
+    res.redirect("/books" + book.id);
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
@@ -65,6 +64,5 @@ router.post("/:id/delete", asyncHandler(async (req, res) => {
   await book.destroy();
   res.redirect("/books");
 }))
-
 
 module.exports = router;
