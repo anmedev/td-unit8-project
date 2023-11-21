@@ -45,19 +45,13 @@ router.post("/new", asyncHandler(async (req, res) => {
   }
 }));
 
-// Displays the "Update Book" form.
+// Displays the "Update Book" form when a book is clicked.
 router.get("/:id", asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
   book ? res.render("update-book", {book, title: "Update Book"}) : res.sendStatus(404);
 }));
 
-// Updates Book in the database.
-// router.post("/:id", asyncHandler(async (req, res) => {
-//   const book = await Book.findByPk(req.params.id);
-//   await book.update(req.body);
-//   res.redirect("/books" + book.id);
-// }))
-
+// Updates the book that was clicked in the database.
 router.post('/:id', asyncHandler(async (req, res) => {
   let book;
   try {
