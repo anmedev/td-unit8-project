@@ -12,12 +12,11 @@ block content
         th Author
         th Genre
         th Year
-    each book in books
     tbody
-      tr
-        td
-          a(href = "/books/" + book.id) {book.title}
-        td {book.author}
-        td {book.genre}
-        td {book.year}
-      
+      each book in books
+        tr
+          td
+            a(href = "/books/" + book.id) #{book.title}
+          td #{book.author}
+          td #{book.genre}
+          td #{book.year}
