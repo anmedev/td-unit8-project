@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+//-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-IMPORTS-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+const express = require('express');
+const router = express.Router();
+const Book = require("../models/book");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", async function(req, res, next) {
+  res.redirect("/books");
 });
 
 module.exports = router;
