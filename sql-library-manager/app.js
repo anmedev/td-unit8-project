@@ -43,16 +43,16 @@ app.use('/books', booksRouter);
 
 // Creates a 404 Error Handler.
 app.use(function(req, res, next) {
-  res.render('page-not-found');
-  next(createError(404));
+  res.render('page-not-found', {title: "Page Not Found"});
+  // next(createError(404));
 });
 
-// // Creates a global Error handler.
+// Creates a global Error handler.
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {title: "Page Not Found"});
 });
 
 module.exports = app;
