@@ -46,9 +46,16 @@ router.post("/new", asyncHandler(async (req, res) => {
 }));
 
 // Displays the "Update Book" form when a book is clicked.
-router.get("/:id", asyncHandler(async (req, res) => {
+router.get("/:id", asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
-  book ? res.render("update-book", {book, title: "Update Book"}) : res.sendStatus(404);
+  if (book) {
+    res.render("update-book", {book, title: "Update Book"});
+  } else {
+    const err = new Error();
+    err.status = 404;
+    err.message = "Sorry! We don't have the page you're looking for!"
+    next(err);
+  }
 }));
 
 // Updates the book that was clicked in the database.
@@ -85,25 +92,3 @@ router.post("/:id/delete", asyncHandler(async (req, res) => {
 }));
 
 module.exports = router;
-
-
-// router.post('/:id', asyncHandler(async (req, res) => {
-//   let book;
-//   try {
-//     book = await Book.findByPk(req.params.id);
-//     if(article) {
-//       await book.update(req.body);
-//       res.redirect("/books/" + book.id); 
-//     } else {
-//       res.sendStatus(404);
-//     }
-//   } catch (error) {
-//     if(error.name === "SequelizeValidationError") {
-//       book = await Book.build(req.body);
-//       book.id = req.params.id;
-//       res.render("update-book", {book, errors: error.errors, title: "Update Book"})
-//     } else {
-//       throw error;
-//     }
-//   }
-// }));
