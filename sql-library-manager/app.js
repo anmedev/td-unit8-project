@@ -41,19 +41,37 @@ app.use('/books', booksRouter);
 
 //-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-ERROR HANDLERS-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-// Creates a 404 Error Handler.
-app.use(function(req, res, next) {
-  res.render('page-not-found', {title: "Page Not Found"});
-  // next(createError(404));
+// Creates a 404 Error handler.
+app.use((req, res, next) => {
+  const err = new Error();
+  err.status = 404;
+  res.status(404);
+  res.render('page-not-found', {title: "Page Not Found!"});
+  // next(err);
 });
 
-// Creates a global Error handler.
-app.use(function(err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error', {title: "Page Not Found"});
-  console.log('ERROR', err.message)
+/* Creates a global Error handler for all errors that are not 404 errors.*/
+app.use((err, req, res, next) => {
+  err.status = err.status || 500;
+  err.message = err.message || "Internal Server Error";
+  res.status(err.status);
+  res.send(err.message);
+  console.log(`${err.status} : ${err.message}`);
 });
+
+// // Creates a 404 Error Handler.
+// app.use(function(req, res, next) {
+//   res.render('page-not-found', {title: "Page Not Found"});
+//   // next(createError(404));
+// });
+
+// // Creates a global Error handler.
+// app.use(function(err, req, res, next) {
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//   res.status(err.status || 500);
+//   res.render('error', {title: "Page Not Found"});
+//   console.log('ERROR', err.message)
+// });
 
 module.exports = app;
